@@ -1,11 +1,12 @@
 module.exports = {
-	name: 'skip',
-	aliases: ['s'],
-	description: 'Skips the current playing song',
-	execute(message, args, queue) {
+	name: 'loop',
+	aliases: ['l'],
+	description: 'Loops the current song',
+	execute(message, args, queue, commands) {
 		const voiceChannel = message.member.voice.channel;
 
 		const serverQueue = queue.get(message.guild.id);
+
 		if (!voiceChannel) {
 			message.channel.send('Please join a voice channel first');
 			return;
@@ -15,6 +16,6 @@ module.exports = {
 			message.channel.send('There are no songs in the queue');
 			return;
 		}
-		serverQueue.connection.dispatcher.end();
-	},
-};
+		serverQueue.loop = !serverQueue.loop;
+	}
+}

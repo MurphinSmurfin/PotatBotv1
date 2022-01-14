@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'leave',
-	aliases: ['stop', 'l'],
+	aliases: ['stop'],
 	description: 'stops the bot and leave the voice channel',
 	async execute(message, args, queue) {
 		const serverQueue = queue.get(message.guild.id);
