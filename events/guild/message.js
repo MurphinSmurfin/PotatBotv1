@@ -11,5 +11,5 @@ module.exports = (bot, message) => {
 
 	const command = bot.commands.get(cmd) || bot.commands.find(a => a.aliases && a.aliases.includes(cmd));
 
-	if (command) command.execute(message, args, serverQueue);
+	if (command) command.execute(message, args, serverQueue, bot.commands);
 };

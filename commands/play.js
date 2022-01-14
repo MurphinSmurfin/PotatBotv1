@@ -26,7 +26,9 @@ module.exports = {
 			song = {
 				title: songInfo.videoDetails.title,
 				url: songInfo.videoDetails.video_url,
+				timestamp: timestampConvert(songInfo.videoDetails.lengthSeconds),
 			};
+			console.log(songInfo)
 		}
 		else {
 			const videoFinder = async (query) => {
@@ -37,7 +39,7 @@ module.exports = {
 			const video = await videoFinder(args.join(' '));
 
 			if (video) {
-				song = { title: video.title, url: video.url };
+				song = { title: video.title, url: video.url, timestamp: video.timestamp };
 			}
 			else {
 				message.channel.send('Error finding video.');
@@ -50,6 +52,7 @@ module.exports = {
 				textChannel: message.channel,
 				connection: null,
 				songs: [],
+				loop: false,
 			};
 
 			queueConstruct.songs.push(song);
@@ -86,11 +89,19 @@ module.exports = {
 			const dispatcher = connection.play(ytdl(serverQueue.songs[0].url), { seek: 0, volume: 1 });
 
 			dispatcher.on('finish', () => {
-				serverQueue.songs.shift();
+				if (!serverQueue.loop){
+					serverQueue.songs.shift();
+				}
 				play(connection);
 			});
 
 			serverQueue.textChannel.send(`Now Playing ***${serverQueue.songs[0].title}***`);
 		}
+		function timestampConvert(seconds) {
+			var hours = Math.floor(seconds / 3600);
+			var minutes = ((seconds % 3600) / 60).toFixed(0);
+			var seconds = (seconds % 60).toFixed(0);
+			return hours + ":" + (minutes < 10 ? '0' : '') + minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+		  }
 	},
 };
