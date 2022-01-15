@@ -17,5 +17,12 @@ module.exports = {
 			return;
 		}
 		serverQueue.loop = !serverQueue.loop;
+		
+		if (serverQueue.loop === true){
+			message.channel.send('Looping current song')
+		}
+		else {
+			message.channel.send('Stopped looping')
+		}
 	}
 }

@@ -23,7 +23,13 @@ module.exports = {
 			var hours = Math.floor(millis / 3600000);
 			var minutes = ((millis % 3600000)/ 60000).toFixed(0);
 			var seconds = ((millis % 60000) / 1000).toFixed(0);
-			return hours + ":" + (minutes < 10 ? '0' : '') + minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+			if (hours < 1)
+			{
+				return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+			}
+			else {
+				return hours + ":" + (minutes < 10 ? '0' : '') + minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+			}
 		  }
 
 		const newEmbed = new MessageEmbed()

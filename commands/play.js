@@ -27,6 +27,7 @@ module.exports = {
 				title: songInfo.videoDetails.title,
 				url: songInfo.videoDetails.video_url,
 				timestamp: timestampConvert(songInfo.videoDetails.lengthSeconds),
+				author: songInfo.videoDetails.author.name,
 			};
 			console.log(songInfo)
 		}
@@ -36,15 +37,21 @@ module.exports = {
 				return (videoResult.videos.length > 1) ? videoResult.videos[0] : null;
 			};
 
-			const video = await videoFinder(args.join(' '));
+		const video = await videoFinder(args.join(' '));
 
-			if (video) {
-				song = { title: video.title, url: video.url, timestamp: video.timestamp };
-			}
-			else {
-				message.channel.send('Error finding video.');
-			}
+		if (video) {
+			song = { 
+				title: video.title,
+				url: video.url, 
+				timestamp: video.timestamp,
+				author: video.author.name,
+			};
+			console.log(video)
 		}
+		else {
+			message.channel.send('Error finding video.');
+		}
+	}
 
 		if (!queue.get(message.guild.id)) {
 			const queueConstruct = {
@@ -81,12 +88,19 @@ module.exports = {
 			const serverQueue = queue.get(message.guild.id);
 
 			if (!serverQueue.songs[0]) {
+				message.channel.send('No songs left in queue. Leaving channel.');
 				serverQueue.voiceChannel.leave();
 				queue.delete(message.guild.id);
 				return;
 			}
 
-			const dispatcher = connection.play(ytdl(serverQueue.songs[0].url), { seek: 0, volume: 1 });
+		const dispatcher = connection.play(ytdl(serverQueue.songs[0].url), { 
+			filter: 'audioonly',
+			highWaterMark: 1 << 25,
+			quality: 'highestaudio',
+			seek: 0, 
+			volume: 1 
+		});
 
 			dispatcher.on('finish', () => {
 				if (!serverQueue.loop){
@@ -94,14 +108,20 @@ module.exports = {
 				}
 				play(connection);
 			});
-
 			serverQueue.textChannel.send(`Now Playing ***${serverQueue.songs[0].title}***`);
 		}
+
 		function timestampConvert(seconds) {
 			var hours = Math.floor(seconds / 3600);
 			var minutes = ((seconds % 3600) / 60).toFixed(0);
 			var seconds = (seconds % 60).toFixed(0);
-			return hours + ":" + (minutes < 10 ? '0' : '') + minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+			if (hours < 1)
+			{
+				return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+			}
+			else {
+				return hours + ":" + (minutes < 10 ? '0' : '') + minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+			}
 		  }
 	},
 };

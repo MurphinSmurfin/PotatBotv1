@@ -16,7 +16,7 @@ module.exports = {
 		else {
 			newEmbed.setColor('#772B8A')
 				.setTitle('Songs in queue')
-				.setDescription(serverQueue.songs.reduce((acc, song) => acc + `***${song.title}***\n`, ''));
+				.setDescription(serverQueue.songs.reduce((acc, song) => acc + `***${song.title} by ${song.author}***\n`, ''));
 		}
 		message.channel.send(newEmbed);
 	},
