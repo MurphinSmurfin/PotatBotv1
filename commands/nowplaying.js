@@ -1,7 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
-	name: 'now playing',
+	name: 'nowplaying',
 	aliases: ['np'],
 	description: 'Shows the current playing song timestamp',
 	execute(message, args, queue) {

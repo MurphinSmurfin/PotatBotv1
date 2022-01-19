@@ -16,7 +16,6 @@ module.exports = {
 			allowModPost: false,
 			allowCrossPost: true,
 		}).then(post => {
-			console.log(redditFetch);
 			message.channel.send(post.url);
 		});
 	},
