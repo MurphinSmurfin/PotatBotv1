@@ -7,10 +7,16 @@ module.exports = {
 
 		const voiceChannel = message.member.voice.channel;
 
-		if (!voiceChannel) return message.channel.send('You need to be in the same voice channel to stop the music!');
-		if (!serverQueue) {
-			return message.channel.send('There are no songs in the queue');
+		if (!voiceChannel) {
+			message.channel.send('Please join a voice channel first');
+			return;
 		}
+
+		if (!serverQueue) {
+			message.channel.send('There are no songs in the queue');
+			return;
+		}
+
 		queue.delete(message.guild.id);
 		await voiceChannel.leave();
 		await message.channel.send('Bing bong! See you next time!');

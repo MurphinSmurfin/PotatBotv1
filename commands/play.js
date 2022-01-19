@@ -1,5 +1,4 @@
 const ytdl = require('ytdl-core');
-const ytpl = require('ytpl');
 const ytSearch = require('yt-search');
 
 module.exports = {
@@ -29,7 +28,7 @@ module.exports = {
 				timestamp: timestampConvert(songInfo.videoDetails.lengthSeconds),
 				author: songInfo.videoDetails.author.name,
 			};
-			console.log(songInfo)
+			console.log(songInfo);
 		}
 		else {
 			const videoFinder = async (query) => {
@@ -37,21 +36,21 @@ module.exports = {
 				return (videoResult.videos.length > 1) ? videoResult.videos[0] : null;
 			};
 
-		const video = await videoFinder(args.join(' '));
+			const video = await videoFinder(args.join(' '));
 
-		if (video) {
-			song = { 
-				title: video.title,
-				url: video.url, 
-				timestamp: video.timestamp,
-				author: video.author.name,
-			};
-			console.log(video)
+			if (video) {
+				song = {
+					title: video.title,
+					url: video.url,
+					timestamp: video.timestamp,
+					author: video.author.name,
+				};
+				console.log(video);
+			}
+			else {
+				message.channel.send('Error finding video.');
+			}
 		}
-		else {
-			message.channel.send('Error finding video.');
-		}
-	}
 
 		if (!queue.get(message.guild.id)) {
 			const queueConstruct = {
@@ -94,16 +93,16 @@ module.exports = {
 				return;
 			}
 
-		const dispatcher = connection.play(ytdl(serverQueue.songs[0].url), { 
-			filter: 'audioonly',
-			highWaterMark: 1 << 25,
-			quality: 'highestaudio',
-			seek: 0, 
-			volume: 1 
-		});
+			const dispatcher = connection.play(ytdl(serverQueue.songs[0].url), {
+				filter: 'audioonly',
+				highWaterMark: 1 << 25,
+				quality: 'highestaudio',
+				seek: 0,
+				volume: 1,
+			});
 
 			dispatcher.on('finish', () => {
-				if (!serverQueue.loop){
+				if (!serverQueue.loop) {
 					serverQueue.songs.shift();
 				}
 				play(connection);
@@ -112,16 +111,15 @@ module.exports = {
 		}
 
 		function timestampConvert(seconds) {
-			var hours = Math.floor(seconds / 3600);
-			var minutes = ((seconds % 3600) / 60).toFixed(0);
-			var seconds = (seconds % 60).toFixed(0);
-			if (hours < 1)
-			{
-				return minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+			const hours = Math.floor(seconds / 3600);
+			const minutes = ((seconds % 3600) / 60).toFixed(0);
+			seconds = (seconds % 60).toFixed(0);
+			if (hours < 1) {
+				return minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
 			}
 			else {
-				return hours + ":" + (minutes < 10 ? '0' : '') + minutes + ":" + (seconds < 10 ? '0' : '') + seconds;
+				return hours + ':' + (minutes < 10 ? '0' : '') + minutes + ':' + (seconds < 10 ? '0' : '') + seconds;
 			}
-		  }
+		}
 	},
 };

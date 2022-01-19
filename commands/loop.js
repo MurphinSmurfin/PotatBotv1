@@ -2,7 +2,7 @@ module.exports = {
 	name: 'loop',
 	aliases: ['l'],
 	description: 'Loops the current song',
-	execute(message, args, queue, commands) {
+	execute(message, args, queue) {
 		const voiceChannel = message.member.voice.channel;
 
 		const serverQueue = queue.get(message.guild.id);
@@ -17,12 +17,12 @@ module.exports = {
 			return;
 		}
 		serverQueue.loop = !serverQueue.loop;
-		
-		if (serverQueue.loop === true){
-			message.channel.send('Looping current song')
+
+		if (serverQueue.loop === true) {
+			message.channel.send('Looping current song');
 		}
 		else {
-			message.channel.send('Stopped looping')
+			message.channel.send('Stopped looping');
 		}
-	}
-}
+	},
+};
