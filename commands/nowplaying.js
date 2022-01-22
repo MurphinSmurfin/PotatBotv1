@@ -34,7 +34,7 @@ module.exports = {
 		const newEmbed = new MessageEmbed()
 			.setColor('#772B8A')
 			.setTitle('Now Playing')
-			.setDescription(`${(timestampConvert(serverQueue.connection.dispatcher.streamTime))} / ${serverQueue.songs[0].timestamp}`);
+			.setDescription(`[${(timestampConvert(serverQueue.connection.dispatcher.streamTime))} / ${serverQueue.songs[0].timestamp}]`);
 
 		message.channel.send(newEmbed);
 	},
