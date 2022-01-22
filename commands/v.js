@@ -2,7 +2,7 @@ const ytdl = require('ytdl-core');
 
 module.exports = {
 	name: 'v',
-	description: 'iykyk',
+	description: 'Serotonin boost',
 	async execute(message, args, queue) {
 		const voiceChannel = message.member.voice.channel;
 		const serverQueue = queue.get(message.guild.id);
