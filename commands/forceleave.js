@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'forceleave',
-	alias: ['fl'],
+	aliases: ['fl'],
 	description: 'Forces the bot to leave voice channel',
 	async execute(message) {
 		const voiceChannel = message.member.voice.channel;
