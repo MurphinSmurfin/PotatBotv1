@@ -3,8 +3,6 @@ module.exports = {
 	aliases: ['stop'],
 	description: 'Stops the bot and leave the voice channel',
 	async execute(message, args, queue) {
-		const serverQueue = queue.get(message.guild.id);
-
 		const voiceChannel = message.member.voice.channel;
 
 		if (!voiceChannel) {
@@ -12,13 +10,8 @@ module.exports = {
 			return;
 		}
 
-		if (!serverQueue) {
-			message.channel.send('There are no songs in the queue');
-			return;
-		}
-
 		queue.delete(message.guild.id);
-		await voiceChannel.leave();
-		await message.channel.send('Bing bong! See you next time!');
+		voiceChannel.leave();
+		message.channel.send('Queue is cleared! See you next time!');
 	},
 };
