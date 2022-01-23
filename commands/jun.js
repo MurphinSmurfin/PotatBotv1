@@ -6,6 +6,7 @@ module.exports = {
 	description: 'DJ Shota paying homage to Nujabes',
 	async execute(message, args, queue) {
 		const voiceChannel = message.member.voice.channel;
+
 		const serverQueue = queue.get(message.guild.id);
 
 		if (!voiceChannel) {
