@@ -7,7 +7,7 @@ module.exports = {
 
 		const serverQueue = queue.get(message.guild.id);
 
-		const botVoiceChannel = message.guild.voice.channel;
+		const botVoiceChannel = message.guild.me.voice.channel;
 
 		if (!voiceChannel) {
 			message.channel.send('Please join a voice channel first');

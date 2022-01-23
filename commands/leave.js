@@ -5,7 +5,7 @@ module.exports = {
 	async execute(message, args, queue) {
 		const voiceChannel = message.member.voice.channel;
 
-		const botVoiceChannel = message.guild.voice.channel;
+		const botVoiceChannel = message.guild.me.voice.channel;
 
 		if (!voiceChannel) {
 			message.channel.send('Please join a voice channel first');
