@@ -107,7 +107,8 @@ module.exports = {
 				}
 				play(connection);
 			});
-			serverQueue.textChannel.send(`Now Playing ***${serverQueue.songs[0].title}***`);
+			serverQueue.textChannel.send(`Now Playing ***${serverQueue.songs[0].title}***`)
+			.then(message => message.delete({timeout: 60000}));
 		}
 
 		function timestampConvert(seconds) {
