@@ -1,4 +1,5 @@
 const ytdl = require('ytdl-core');
+const ytpl = require('ytpl');
 const ytSearch = require('yt-search');
 
 module.exports = {
@@ -20,7 +21,21 @@ module.exports = {
 
 		let song = {};
 
-		if (ytdl.validateURL(args[0])) {
+		if (ytpl.validateID(args[0])) {
+			const playlist = await ytpl(args[0]);
+			console.log(playlist);
+			playlist.items.forEach(item => {
+				song = {
+					title: item.title,
+					url: item.shortUrl,
+					author: item.author.name,
+					timestamp: item.duration,
+				};
+			});
+			console.log(song);
+		}
+
+		else if (ytdl.validateURL(args[0])) {
 			const songInfo = await ytdl.getInfo(args[0]);
 			song = {
 				title: songInfo.videoDetails.title,
@@ -85,6 +100,7 @@ module.exports = {
 
 		function play(connection) {
 			const serverQueue = queue.get(message.guild.id);
+
 
 			if (!serverQueue.songs[0]) {
 				message.channel.send('No songs left in queue. Leaving channel.');
