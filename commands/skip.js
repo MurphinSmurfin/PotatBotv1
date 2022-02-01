@@ -23,9 +23,7 @@ module.exports = {
 			message.channel.send('There are no songs in the queue');
 			return;
 		}
-		console.log(serverQueue);
-		serverQueue.songs.shift();
-		console.log(serverQueue);
+		serverQueue.dispatcher.end();
 		message.channel.send('Skipping this song!');
 	},
 };

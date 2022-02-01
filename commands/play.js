@@ -26,6 +26,7 @@ module.exports = {
 				connection: null,
 				songs: [],
 				loop: false,
+				dispatcher: null,
 			});
 		}
 
@@ -120,6 +121,8 @@ module.exports = {
 				seek: 0,
 				volume: 1,
 			});
+
+			serverQueue.dispatcher = dispatcher;
 
 			dispatcher.on('finish', () => {
 				if (!serverQueue.loop) serverQueue.songs.shift();
